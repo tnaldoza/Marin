@@ -1,0 +1,93 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "TypeScript: Debug Current File",
+			"runtimeExecutable": "npx",
+			"runtimeArgs": ["tsx", "${file}"],
+			"console": "integratedTerminal",
+			"skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+			"sourceMaps": true,
+			"resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/**"]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "TypeScript: Debug Current File (Watch)",
+			"runtimeExecutable": "npx",
+			"runtimeArgs": ["tsx", "watch", "${file}"],
+			"console": "integratedTerminal",
+			"skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+			"restart": true
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "TypeScript: Debug Specific File",
+			"runtimeExecutable": "npx",
+			"runtimeArgs": ["tsx", "${workspaceFolder}/src/index.ts"],
+			"console": "integratedTerminal",
+			"skipFiles": ["<node_internals>/**", "**/node_modules/**"]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Jest: Debug Current Test File",
+			"program": "${workspaceFolder}/node_modules/.bin/jest",
+			"args": ["${fileBasenameNoExtension}", "--runInBand", "--no-cache"],
+			"console": "integratedTerminal",
+			"skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+			"windows": {
+				"program": "${workspaceFolder}/node_modules/jest/bin/jest"
+			}
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Jest: Debug All Tests",
+			"program": "${workspaceFolder}/node_modules/.bin/jest",
+			"args": ["--runInBand", "--no-cache"],
+			"console": "integratedTerminal",
+			"skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+			"windows": {
+				"program": "${workspaceFolder}/node_modules/jest/bin/jest"
+			}
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Node: Debug Current JavaScript File",
+			"program": "${file}",
+			"console": "integratedTerminal",
+			"skipFiles": ["<node_internals>/**", "**/node_modules/**"]
+		},
+		{
+			"type": "chrome",
+			"request": "launch",
+			"name": "Chrome: Debug React App",
+			"url": "http://localhost:3000",
+			"webRoot": "${workspaceFolder}/src",
+			"sourceMaps": true,
+			"sourceMapPathOverrides": {
+				"webpack:///src/*": "${webRoot}/*"
+			}
+		},
+		{
+			"type": "chrome",
+			"request": "launch",
+			"name": "Chrome: Debug Vite App",
+			"url": "http://localhost:5173",
+			"webRoot": "${workspaceFolder}/src",
+			"sourceMaps": true
+		}
+	],
+	"compounds": [
+		{
+			"name": "Full Stack: Debug Frontend & Backend",
+			"configurations": ["TypeScript: Debug Specific File", "Chrome: Debug React App"],
+			"stopAll": true
+		}
+	]
+}

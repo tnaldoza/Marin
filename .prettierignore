@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+jspm_packages/
+bower_components/
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+.nuxt/
+.output/
+.cache/
+.svelte-kit/
+.vitepress/dist/
+.docusaurus/
+
+# Coverage
+coverage/
+*.lcov
+.nyc_output/
+
+# Logs
+*.log
+logs/
+
+# Package manager files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Environment files
+.env
+.env.*
+
+# Cache
+.cache
+.parcel-cache
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
+.vite/
+
+# IDE
+.vscode-test

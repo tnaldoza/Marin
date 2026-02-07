@@ -1,0 +1,52 @@
+{
+	"name": "marin",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"commit": "cz",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
+		"lint:md": "markdownlint \"**/*.md\"",
+		"lint:md:fix": "markdownlint \"**/*.md\" --fix",
+		"format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+		"format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+		"type-check": "tsc --noEmit",
+		"prepare": "husky"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/tnaldoza/Marin.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "commonjs",
+	"bugs": {
+		"url": "https://github.com/tnaldoza/Marin/issues"
+	},
+	"homepage": "https://github.com/tnaldoza/Marin#readme",
+	"config": {
+		"commitizen": {
+			"path": "cz-conventional-changelog"
+		}
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^20.4.1",
+		"@commitlint/config-conventional": "^20.4.1",
+		"@eslint/js": "^9.19.0",
+		"@types/node": "^25.2.1",
+		"commitizen": "^4.3.1",
+		"cz-conventional-changelog": "^3.3.0",
+		"eslint": "^9.19.0",
+		"globals": "^17.3.0",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.2.7",
+		"markdownlint-cli": "^0.47.0",
+		"prettier": "^3.4.2",
+		"tsx": "^4.21.0",
+		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.19.1"
+	}
+}

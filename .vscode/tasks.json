@@ -1,0 +1,222 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "TypeScript: Build",
+			"type": "shell",
+			"command": "npx",
+			"args": ["tsc", "--build"],
+			"problemMatcher": ["$tsc"],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true,
+				"focus": true
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "TypeScript: Type Check",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "type-check"],
+			"problemMatcher": ["$tsc"],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true,
+				"focus": true
+			},
+			"group": "build"
+		},
+		{
+			"label": "TypeScript: Run Current File",
+			"type": "shell",
+			"command": "npx",
+			"args": ["tsx", "${file}"],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true,
+				"focus": true
+			},
+			"group": "build"
+		},
+		{
+			"label": "TypeScript: Watch Current File",
+			"type": "shell",
+			"command": "npx",
+			"args": ["tsx", "watch", "${file}"],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true,
+				"focus": true
+			},
+			"isBackground": true
+		},
+		{
+			"label": "ESLint: Lint All",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "lint"],
+			"problemMatcher": ["$eslint-stylish"],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true,
+				"focus": true
+			},
+			"group": "test"
+		},
+		{
+			"label": "ESLint: Fix All",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "lint:fix"],
+			"problemMatcher": ["$eslint-stylish"],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true,
+				"focus": true
+			},
+			"group": "test"
+		},
+		{
+			"label": "Prettier: Format All",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "format"],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true,
+				"focus": false
+			}
+		},
+		{
+			"label": "Prettier: Check Formatting",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "format:check"],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true,
+				"focus": true
+			}
+		},
+		{
+			"label": "Markdownlint: Lint All",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "lint:md"],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true,
+				"focus": true
+			}
+		},
+		{
+			"label": "Markdownlint: Fix All",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "lint:md:fix"],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true,
+				"focus": true
+			}
+		},
+		{
+			"label": "Git: Commit (Interactive)",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "commit"],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": false,
+				"focus": true
+			}
+		},
+		{
+			"label": "NPM: Install Dependencies",
+			"type": "shell",
+			"command": "npm",
+			"args": ["install"],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true,
+				"focus": true
+			}
+		},
+		{
+			"label": "NPM: Update Dependencies",
+			"type": "shell",
+			"command": "npm",
+			"args": ["update"],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true,
+				"focus": true
+			}
+		},
+		{
+			"label": "NPM: Audit",
+			"type": "shell",
+			"command": "npm",
+			"args": ["audit"],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true,
+				"focus": true
+			}
+		},
+		{
+			"label": "NPM: Audit Fix",
+			"type": "shell",
+			"command": "npm",
+			"args": ["audit", "fix"],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true,
+				"focus": true
+			}
+		},
+		{
+			"label": "Full Check",
+			"dependsOn": ["TypeScript: Type Check", "ESLint: Lint All", "Prettier: Check Formatting"],
+			"dependsOrder": "parallel",
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true,
+				"focus": true
+			},
+			"group": "test"
+		}
+	]
+}
