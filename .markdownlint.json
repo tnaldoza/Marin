@@ -1,5 +1,8 @@
 {
 	"default": true,
+	"MD007": {
+		"indent": 4
+	},
 	"MD010": {
 		"code_blocks": false
 	},
