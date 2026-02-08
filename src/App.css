@@ -9,14 +9,18 @@
 	box-sizing: border-box;
 }
 
+html {
+	scrollbar-gutter: stable;
+}
+
 /* Body - Sets global styles for the entire page
    - font-family: System fonts for native OS feel
    - antialiased: Smoother font rendering
    - linear-gradient: Background color transition (diagonal from top-left to bottom-right)
    - min-height: 100vh ensures full viewport height (vh = viewport height) */
 body {
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-		"Helvetica Neue", sans-serif;
+	font-family:
+		-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	background: linear-gradient(135deg, #1a0d2e 0%, #0d0618 100%);
@@ -83,6 +87,144 @@ code {
 	display: flex;
 	flex-direction: column;
 	gap: 2rem;
+}
+
+/*! NAVBAR - Navigation bar at top of every page */
+
+/* Navbar container - Horizontal layout with space between brand and links */
+.navbar {
+	background: rgba(13, 6, 24, 0.9);
+	backdrop-filter: blur(10px);
+	border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+	padding: 1rem 2rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+}
+
+/* Navbar brand (logo/title) */
+.navbar-brand a {
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: #a855f7;
+	text-decoration: none;
+	transition: color 0.3s ease;
+}
+
+.navbar-brand a:hover {
+	color: #c084fc;
+}
+
+/* Navbar links - Horizontal list */
+.navbar-links {
+	display: flex;
+	gap: 2rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.navbar-links a {
+	color: #e9d5ff;
+	text-decoration: none;
+	font-size: 1rem;
+	transition: color 0.3s ease;
+	position: relative;
+}
+
+/* Hover effect - Underline animation */
+.navbar-links a:hover {
+	color: #a855f7;
+}
+
+.navbar-links a::after {
+	content: "";
+	position: absolute;
+	bottom: -4px;
+	left: 0;
+	width: 0;
+	height: 2px;
+	background: #a855f7;
+	transition: width 0.3s ease;
+}
+
+.navbar-links a:hover::after {
+	width: 100%;
+}
+
+/*! PAGE LAYOUT - Common page structure */
+
+/* Page container - Consistent padding for all pages */
+.page {
+	padding: 2rem;
+	max-width: 1400px;
+	margin: 0 auto;
+}
+
+/* Page header - Title section at top of each page */
+.page-header {
+	text-align: center;
+	margin-bottom: 3rem;
+}
+
+.page-header h1 {
+	font-size: 2.5rem;
+	color: #a855f7;
+	margin-bottom: 0.5rem;
+}
+
+.page-header p {
+	font-size: 1.2rem;
+	color: #c084fc;
+}
+
+/* Todo page specific layout */
+.todo-main {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+/*! HOME PAGE - Landing page styles */
+
+.home-page {
+	text-align: center;
+}
+
+/* Feature cards grid */
+.features {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	gap: 2rem;
+	margin-top: 3rem;
+}
+
+.feature-card {
+	background: rgba(45, 27, 78, 0.4);
+	backdrop-filter: blur(10px);
+	border: 1px solid rgba(168, 85, 247, 0.2);
+	border-radius: 16px;
+	padding: 2rem;
+	transition: all 0.3s ease;
+}
+
+.feat ~ ure-card:hover {
+	transform: translateY(-4px);
+	border-color: rgba(168, 85, 247, 0.4);
+	box-shadow: 0 12px 48px rgba(168, 85, 247, 0.2);
+}
+
+.feature-card h2 {
+	color: #a855f7;
+	margin-bottom: 1rem;
+}
+
+.feature-card p {
+	color: #e9d5ff;
+	margin-bottom: 1.5rem;
 }
 
 /*! SECTIONS - Reusable Container Styles */
@@ -241,6 +383,31 @@ select:focus {
 	border-color: #a855f7;
 	box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
 	background: rgba(74, 44, 109, 0.7);
+}
+
+/* Make entire datetime input clickable
+   - position: relative allows absolute positioning of child pseudo-elements
+   - cursor: pointer shows hand cursor over entire input */
+input[type="datetime-local"] {
+	position: relative;
+	cursor: pointer;
+}
+
+/* Calendar picker indicator - Make it cover the entire input
+   - position: absolute takes it out of normal flow
+   - width/height: 100% makes it cover the entire input area
+   - opacity: 0 hides the icon but keeps it clickable
+   - This makes clicking ANYWHERE in the input open the picker */
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	cursor: pointer;
 }
 
 /* ::placeholder pseudo-element - Styles placeholder text
@@ -460,12 +627,32 @@ input[type="checkbox"]:checked::after {
 
 /*! TODO CARD CONTENT - Text and metadata */
 
+/* Todo header - Contains title and priority stars
+   - display: flex creates horizontal layout
+   - justify-content: space-between pushes title left, stars right
+   - align-items: center vertically centers both */
+.todo-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 0.75rem;
+}
+
 /* Todo title */
 .todo-card h3 {
 	font-size: 1.5rem;
 	color: #e9d5ff;
-	margin-bottom: 1rem;
+	margin: 0;
 	font-weight: 600;
+}
+
+/* Priority stars display
+   - font-size: Larger stars for visibility
+   - filter: drop-shadow() creates glow effect */
+.priority-stars {
+	font-size: 1.3rem;
+	color: #fbbf24;
+	filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.5));
 }
 
 /* Priority stars display
@@ -495,6 +682,33 @@ input[type="checkbox"]:checked::after {
 	margin: 0.75rem 0;
 	font-style: italic;
 	color: #c084fc;
+}
+
+/* Todo metadata container - Dates and timestamps
+   - display: flex with flex-direction: column stacks dates vertically
+   - gap: Adds consistent space between each date line */
+.todo-meta {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	margin-top: 1rem;
+	font-size: 0.875rem;
+}
+
+/* Individual metadata spans */
+.todo-meta span {
+	color: #c084fc;
+}
+
+/* Todo controls container - Checkbox and delete button
+   - display: flex creates horizontal layout
+   - align-items: center vertically aligns checkbox with button
+   - gap: Space between checkbox and button */
+.todo-controls {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	margin-top: 1rem;
 }
 
 /* Date labels styling
