@@ -5,6 +5,9 @@
 import js from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
+import react from "eslint-plugin-react";
+import reactHooks from "eslint-plugin-react-hooks";
+import jsxA11y from "eslint-plugin-jsx-a11y";
 
 export default tseslint.config(
 	// Global ignores - these paths will not be linted at all
@@ -252,13 +255,65 @@ export default tseslint.config(
 		},
 	},
 
-	// Configuration for React/JSX files (when you add React)
+	// Configuration for React/JSX files
 	{
 		name: "react-config",
 		files: ["**/*.tsx", "**/*.jsx"],
+		plugins: {
+			react,
+			"react-hooks": reactHooks,
+			"jsx-a11y": jsxA11y,
+		},
+		languageOptions: {
+			globals: {
+				...globals.browser,
+			},
+			parserOptions: {
+				ecmaFeatures: {
+					jsx: true,
+				},
+			},
+		},
+		settings: {
+			react: {
+				version: "detect",
+			},
+		},
 		rules: {
-			// Add React-specific rules here when you install eslint-plugin-react
-			// For now, just basic JSX rules are covered by TypeScript
+			// React recommended rules
+			...react.configs.recommended.rules,
+			...react.configs["jsx-runtime"].rules,
+			...reactHooks.configs.recommended.rules,
+
+			// React-specific rules
+			"react/react-in-jsx-scope": "off", // Not needed with React 17+
+			"react/prop-types": "off", // Use TypeScript for prop validation
+			"react/jsx-uses-react": "off", // Not needed with React 17+
+			"react/jsx-uses-vars": "error",
+			"react/jsx-key": "error",
+			"react/jsx-no-duplicate-props": "error",
+			"react/jsx-no-undef": "error",
+			"react/no-children-prop": "error",
+			"react/no-danger-with-children": "error",
+			"react/no-deprecated": "error",
+			"react/no-direct-mutation-state": "error",
+			"react/no-unescaped-entities": "warn",
+			"react/self-closing-comp": "warn",
+
+			// React Hooks rules
+			"react-hooks/rules-of-hooks": "error",
+			"react-hooks/exhaustive-deps": "warn",
+
+			// Accessibility rules
+			"jsx-a11y/alt-text": "warn",
+			"jsx-a11y/anchor-has-content": "warn",
+			"jsx-a11y/anchor-is-valid": "warn",
+			"jsx-a11y/aria-props": "warn",
+			"jsx-a11y/aria-role": "warn",
+			"jsx-a11y/click-events-have-key-events": "warn",
+			"jsx-a11y/heading-has-content": "warn",
+			"jsx-a11y/img-redundant-alt": "warn",
+			"jsx-a11y/no-static-element-interactions": "warn",
 		},
 	},
 

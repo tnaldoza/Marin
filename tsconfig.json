@@ -9,7 +9,7 @@
 		// See also https://aka.ms/tsconfig/module
 		"module": "nodenext",
 		"target": "esnext",
-		"types": [],
+		"lib": ["esnext", "DOM", "DOM.Iterable"],
 		// For nodejs:
 		// "lib": ["esnext"],
 		// "types": ["node"],
