@@ -10,6 +10,7 @@
 		"module": "nodenext",
 		"target": "esnext",
 		"lib": ["esnext", "DOM", "DOM.Iterable"],
+		"noEmit": true,
 		// For nodejs:
 		// "lib": ["esnext"],
 		// "types": ["node"],

@@ -8,6 +8,15 @@ export function Home(): ReactElement {
 				<h1>Marin Todo App</h1>
 				<p>A TypeScript + React Learning Project</p>
 			</header>
+
+			<div className="hero-image-container">
+				<img
+					src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=2072&auto=format&fit=crop"
+					alt="Minimalist workspace with laptop and notebook"
+					className="hero-image"
+				/>
+			</div>
+
 			<section className="features">
 				<div className="feature-card">
 					<h2>Todo App</h2>
