@@ -1,5 +1,82 @@
 /*! CSS RESET & BASE STYLES */
 
+/*! THEME VARIABLES - CSS Custom Properties for Dark/Light Mode */
+
+/* Dark theme (default) - Deep purple aesthetic */
+:root,
+[data-theme="dark"] {
+	/* Backgrounds */
+	--bg-primary: #0d0618;
+	--bg-secondary: #1a0d2e;
+	--bg-tertiary: #2d1b4e;
+	--bg-card: rgba(45, 27, 78, 0.4);
+	--bg-input: rgba(74, 44, 109, 0.5);
+	--bg-hover: rgba(74, 44, 109, 0.7);
+
+	/* Text colors */
+	--text-primary: #e9d5ff;
+	--text-secondary: #c084fc;
+	--text-muted: #a78bfa;
+	--text-disabled: #4a2c6d;
+
+	/* Accent colors */
+	--accent-primary: #a855f7;
+	--accent-secondary: #7c3aed;
+	--accent-tertiary: #9333ea;
+
+	/* Borders */
+	--border-color: rgba(168, 85, 247, 0.2);
+	--border-hover: rgba(168, 85, 247, 0.4);
+	--border-focus: rgba(168, 85, 247, 0.6);
+
+	/* Status colors */
+	--success: #86efac;
+	--danger: #fca5a5;
+	--warning: #fbbf24;
+
+	/* Shadows */
+	--shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.3);
+	--shadow-md: 0 8px 32px rgba(0, 0, 0, 0.37);
+	--shadow-lg: 0 12px 48px rgba(168, 85, 247, 0.2);
+}
+
+/* Light theme - Inverted purple aesthetic */
+[data-theme="light"] {
+	/* Backgrounds */
+	--bg-primary: #faf5ff;
+	--bg-secondary: #f3e8ff;
+	--bg-tertiary: #e9d5ff;
+	--bg-card: rgba(243, 232, 255, 0.9);
+	--bg-input: rgba(233, 213, 255, 0.8);
+	--bg-hover: rgba(216, 180, 254, 0.5);
+
+	/* Text colors */
+	--text-primary: #1a0d2e;
+	--text-secondary: #4a2c6d;
+	--text-muted: #6b21a8;
+	--text-disabled: #c084fc;
+
+	/* Accent colors */
+	--accent-primary: #7c3aed;
+	--accent-secondary: #9333ea;
+	--accent-tertiary: #6b21a8;
+
+	/* Borders */
+	--border-color: rgba(124, 58, 237, 0.3);
+	--border-hover: rgba(124, 58, 237, 0.5);
+	--border-focus: rgba(124, 58, 237, 0.7);
+
+	/* Status colors */
+	--success: #16a34a;
+	--danger: #dc2626;
+	--warning: #ca8a04;
+
+	/* Shadows */
+	--shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.1);
+	--shadow-md: 0 8px 32px rgba(0, 0, 0, 0.15);
+	--shadow-lg: 0 12px 48px rgba(124, 58, 237, 0.15);
+}
+
 /* Universal selector (*) - Applies to ALL elements
    - margin/padding: 0 removes browser defaults
    - box-sizing: border-box makes width/height include padding & border (easier to calculate sizes) */
@@ -9,80 +86,115 @@
 	box-sizing: border-box;
 }
 
+/* Prevent layout shift from scrollbar appearing/disappearing
+   - scrollbar-gutter: reserves space even when scrollbar isn't needed
+   - scrollbar-color: sets thumb and track colors for Firefox */
 html {
 	scrollbar-gutter: stable;
+	scrollbar-color: var(--text-muted) var(--bg-primary);
+	background: var(--bg-primary); /* Ensures gutter matches theme */
 }
 
-/* Body - Sets global styles for the entire page
-   - font-family: System fonts for native OS feel
-   - antialiased: Smoother font rendering
-   - linear-gradient: Background color transition (diagonal from top-left to bottom-right)
-   - min-height: 100vh ensures full viewport height (vh = viewport height) */
+/*! CUSTOM SCROLLBAR STYLING - WebKit/Chromium browsers */
+
+/* Scrollbar track (the gutter/background) */
+::-webkit-scrollbar {
+	width: 14px; /* Slightly wider for better visibility */
+}
+
+::-webkit-scrollbar-track {
+	background: var(--bg-primary);
+	border-left: 1px solid var(--border-color); /* Subtle separator */
+}
+
+/* Scrollbar thumb (the draggable part)
+   - Uses accent color for visibility and theme consistency
+   - border creates "floating" effect with padding from track edge */
+::-webkit-scrollbar-thumb {
+	background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
+	border-radius: 8px;
+	border: 3px solid var(--bg-primary); /* Creates padding/floating effect */
+	transition: all 0.2s ease;
+}
+
+/* Hover state - brightens and slightly scales */
+::-webkit-scrollbar-thumb:hover {
+	background: linear-gradient(180deg, var(--text-secondary), var(--accent-primary));
+	border-width: 2px; /* Expands slightly on hover */
+}
+
+/* Active state - when dragging */
+::-webkit-scrollbar-thumb:active {
+	background: var(--accent-tertiary);
+}
+
+/* Body uses theme variables for background and text
+   - linear-gradient creates smooth color transition using theme colors
+   - transition: Smooth animation when switching themes */
 body {
 	font-family:
-		-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	background: linear-gradient(135deg, #1a0d2e 0%, #0d0618 100%);
-	color: #e9d5ff;
+		system-ui,
+		-apple-system,
+		BlinkMacSystemFont,
+		"Segoe UI",
+		Roboto,
+		sans-serif;
+	background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+	color: var(--text-primary);
 	min-height: 100vh;
+	transition:
+		background 0.3s ease,
+		color 0.3s ease;
 }
 
 /* Code blocks styling
    - Monospace font for code
-   - Small padding for spacing around text
-   - border-radius: Rounded corners (higher number = more rounded) */
+   - Uses theme variables for background and text colors */
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-	background: #2d1b4e;
+	background: var(--bg-tertiary);
 	padding: 0.2rem 0.4rem;
 	border-radius: 4px;
-	color: #c084fc;
+	color: var(--text-secondary);
 }
 
 /*! LAYOUT - Main Container */
 
 /* Main app container
-   - max-width: Limits width for readability (prevents content from being too wide on large screens)
-   - margin: 0 auto centers the container horizontally
-   - padding: Space around content */
+   - max-width: Limits width for readability
+   - margin: 0 auto centers the container horizontally */
 .app {
 	max-width: 1200px;
 	margin: 0 auto;
 	padding: 2rem;
 }
 
-/* Header section
-   - text-align: center aligns text horizontally
-   - rgba(): Semi-transparent color (last number is opacity: 0-1)
-   - border-radius: Rounded corners */
+/* Header section - Uses theme card background */
 .app-header {
 	text-align: center;
 	margin-bottom: 3rem;
 	padding: 2rem;
-	background: rgba(45, 27, 78, 0.5);
+	background: var(--bg-card);
 	border-radius: 12px;
-	border: 1px solid #4a2c6d;
+	border: 1px solid var(--text-disabled);
 }
 
-/* Header title
-   - text-shadow: Glow effect (x-offset y-offset blur-radius color) */
+/* Header title with glow effect using theme accent color */
 .app-header h1 {
 	font-size: 3rem;
-	color: #a855f7;
+	color: var(--accent-primary);
 	margin-bottom: 0.5rem;
-	text-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+	text-shadow: 0 0 20px var(--border-color);
 }
 
 .app-header p {
 	font-size: 1.2rem;
-	color: #c084fc;
+	color: var(--text-secondary);
 }
 
 /* Main content area
    - display: flex enables flexbox layout
-   - flex-direction: column stacks children vertically
-   - gap: Space between flex items (easier than margins!) */
+   - flex-direction: column stacks children vertically */
 .app-main {
 	display: flex;
 	flex-direction: column;
@@ -91,11 +203,12 @@ code {
 
 /*! NAVBAR - Navigation bar at top of every page */
 
-/* Navbar container - Horizontal layout with space between brand and links */
+/* Navbar container - Sticky at top, uses theme colors
+   - backdrop-filter: blur() creates frosted glass effect */
 .navbar {
-	background: rgba(13, 6, 24, 0.9);
+	background: var(--bg-secondary);
 	backdrop-filter: blur(10px);
-	border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+	border-bottom: 1px solid var(--border-color);
 	padding: 1rem 2rem;
 	display: flex;
 	justify-content: space-between;
@@ -103,19 +216,20 @@ code {
 	position: sticky;
 	top: 0;
 	z-index: 1000;
+	transition: all 0.3s ease;
 }
 
-/* Navbar brand (logo/title) */
+/* Navbar brand (logo/title) - Uses theme accent color */
 .navbar-brand a {
 	font-size: 1.5rem;
 	font-weight: bold;
-	color: #a855f7;
+	color: var(--accent-primary);
 	text-decoration: none;
 	transition: color 0.3s ease;
 }
 
 .navbar-brand a:hover {
-	color: #c084fc;
+	color: var(--accent-secondary);
 }
 
 /* Navbar links - Horizontal list */
@@ -128,18 +242,19 @@ code {
 }
 
 .navbar-links a {
-	color: #e9d5ff;
+	color: var(--text-primary);
 	text-decoration: none;
 	font-size: 1rem;
 	transition: color 0.3s ease;
 	position: relative;
 }
 
-/* Hover effect - Underline animation */
+/* Hover effect - Color change and underline animation */
 .navbar-links a:hover {
-	color: #a855f7;
+	color: var(--accent-primary);
 }
 
+/* ::after pseudo-element creates animated underline on hover */
 .navbar-links a::after {
 	content: "";
 	position: absolute;
@@ -147,12 +262,31 @@ code {
 	left: 0;
 	width: 0;
 	height: 2px;
-	background: #a855f7;
+	background: var(--accent-primary);
 	transition: width 0.3s ease;
 }
 
 .navbar-links a:hover::after {
 	width: 100%;
+}
+
+/* Theme toggle button - Switches between light/dark mode
+   - Uses theme variables so it adapts to current theme */
+.theme-toggle {
+	background: var(--bg-card);
+	border: 1px solid var(--border-color);
+	border-radius: 8px;
+	padding: 0.5rem 1rem;
+	font-size: 1.2rem;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	color: var(--text-primary);
+}
+
+.theme-toggle:hover {
+	border-color: var(--border-hover);
+	background: var(--bg-input);
+	transform: scale(1.05);
 }
 
 /*! PAGE LAYOUT - Common page structure */
@@ -172,13 +306,13 @@ code {
 
 .page-header h1 {
 	font-size: 2.5rem;
-	color: #a855f7;
+	color: var(--accent-primary);
 	margin-bottom: 0.5rem;
 }
 
 .page-header p {
 	font-size: 1.2rem;
-	color: #c084fc;
+	color: var(--text-secondary);
 }
 
 /* Todo page specific layout */
@@ -194,7 +328,7 @@ code {
 	text-align: center;
 }
 
-/* Feature cards grid */
+/* Feature cards grid - Responsive layout that adapts to screen size */
 .features {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -202,28 +336,29 @@ code {
 	margin-top: 3rem;
 }
 
+/* Feature card - Glass morphism with theme colors */
 .feature-card {
-	background: rgba(45, 27, 78, 0.4);
+	background: var(--bg-card);
 	backdrop-filter: blur(10px);
-	border: 1px solid rgba(168, 85, 247, 0.2);
+	border: 1px solid var(--border-color);
 	border-radius: 16px;
 	padding: 2rem;
 	transition: all 0.3s ease;
 }
 
-.feat ~ ure-card:hover {
+.feature-card:hover {
 	transform: translateY(-4px);
-	border-color: rgba(168, 85, 247, 0.4);
-	box-shadow: 0 12px 48px rgba(168, 85, 247, 0.2);
+	border-color: var(--border-hover);
+	box-shadow: var(--shadow-lg);
 }
 
 .feature-card h2 {
-	color: #a855f7;
+	color: var(--accent-primary);
 	margin-bottom: 1rem;
 }
 
 .feature-card p {
-	color: #e9d5ff;
+	color: var(--text-primary);
 	margin-bottom: 1.5rem;
 }
 
@@ -231,15 +366,15 @@ code {
 
 .counter-section,
 .info-section {
-	background: rgba(45, 27, 78, 0.5);
+	background: var(--bg-card);
 	padding: 2rem;
 	border-radius: 12px;
-	border: 1px solid #4a2c6d;
+	border: 1px solid var(--text-disabled);
 }
 
 .counter-section h2,
 .info-section h2 {
-	color: #a855f7;
+	color: var(--accent-primary);
 	margin-bottom: 1.5rem;
 	font-size: 1.8rem;
 }
@@ -254,13 +389,11 @@ code {
 .count-value {
 	font-size: 4rem;
 	font-weight: bold;
-	color: #a855f7;
-	text-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
+	color: var(--accent-primary);
+	text-shadow: 0 0 30px var(--border-color);
 }
 
-/* Flexbox for horizontal button layout
-   - justify-content: center centers items horizontally
-   - flex-wrap: wrap allows items to wrap to next line on small screens */
+/* Flexbox for horizontal button layout */
 .counter-buttons {
 	display: flex;
 	gap: 1rem;
@@ -270,10 +403,9 @@ code {
 
 /*! BUTTONS - Reusable Button Styles */
 
-/* Base button styles (shared by all buttons)
+/* Base button styles - Uses theme colors
    - cursor: pointer shows hand icon on hover
-   - transition: Smooth animation (property duration easing)
-   - border: none removes default browser button border */
+   - transition: Smooth animation for all property changes */
 .btn {
 	padding: 0.75rem 2rem;
 	font-size: 1rem;
@@ -285,35 +417,32 @@ code {
 	min-width: 120px;
 }
 
-/* Primary button variant */
+/* Primary button variant - Uses theme accent colors */
 .btn-primary {
-	background: #7c3aed;
-	color: #f3e8ff;
+	background: var(--accent-secondary);
+	color: var(--text-primary);
 }
 
-/* :hover pseudo-class - Triggers when mouse is over element
-   - transform: translateY() moves element vertically (negative = up)
-   - box-shadow: Creates shadow (x y blur spread color) */
+/* :hover pseudo-class - Triggered when mouse is over element */
 .btn-primary:hover {
-	background: #9333ea;
+	background: var(--accent-tertiary);
 	transform: translateY(-2px);
-	box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+	box-shadow: var(--shadow-sm);
 }
 
 /* Secondary button variant */
 .btn-secondary {
-	background: #4a2c6d;
-	color: #e9d5ff;
+	background: var(--text-disabled);
+	color: var(--text-primary);
 }
 
 .btn-secondary:hover {
-	background: #6b21a8;
+	background: var(--text-muted);
 	transform: translateY(-2px);
-	box-shadow: 0 4px 12px rgba(107, 33, 168, 0.4);
+	box-shadow: var(--shadow-sm);
 }
 
-/* :active pseudo-class - Triggers when button is being clicked
-   - Resets transform to create "pressed" effect */
+/* :active pseudo-class - Triggered when button is being clicked */
 .btn:active {
 	transform: translateY(0);
 }
@@ -325,79 +454,68 @@ code {
 	padding: 0;
 }
 
-/* List item with accent border
-   - border-left: Vertical colored line on left side */
+/* List item with accent border on left */
 .info-section li {
 	padding: 0.75rem;
 	margin-bottom: 0.5rem;
-	background: rgba(74, 44, 109, 0.3);
+	background: var(--bg-input);
 	border-radius: 6px;
-	border-left: 3px solid #a855f7;
+	border-left: 3px solid var(--accent-primary);
 }
 
 /*! FORM STYLING - Glass Morphism */
 
 /* Form container with glass effect
-   - rgba(): Semi-transparent background (red, green, blue, alpha)
-   - backdrop-filter: blur() creates frosted glass effect by blurring background
-   - box-shadow: Depth effect (x-offset y-offset blur spread color) */
+   - backdrop-filter: blur() creates frosted glass effect
+   - Uses theme variables for all colors */
 form {
-	background: rgba(45, 27, 78, 0.4);
+	background: var(--bg-card);
 	backdrop-filter: blur(10px);
-	border: 1px solid rgba(168, 85, 247, 0.2);
+	border: 1px solid var(--border-color);
 	border-radius: 16px;
 	padding: 1.5rem;
 	margin-bottom: 2rem;
-	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+	box-shadow: var(--shadow-md);
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
 }
 
-/* Form inputs styling
-   - font-family: inherit uses parent's font
-   - width: 100% makes input full width of container
-   - Attribute selectors: [type="text"] targets specific input types */
+/* Form inputs styling - All use theme variables for consistency */
 input[type="text"],
 input[type="datetime-local"],
 textarea,
 select {
-	background: rgba(74, 44, 109, 0.5);
-	border: 1px solid rgba(168, 85, 247, 0.3);
+	background: var(--bg-input);
+	border: 1px solid var(--border-color);
 	border-radius: 8px;
 	padding: 0.75rem;
-	color: #e9d5ff;
+	color: var(--text-primary);
 	font-size: 1rem;
 	font-family: inherit;
 	transition: all 0.3s ease;
 	width: 100%;
 }
 
-/* :focus pseudo-class - Triggers when input is selected/clicked
-   - outline: none removes browser's default focus outline
-   - box-shadow creates custom glow effect around input */
+/* :focus pseudo-class - Triggered when input is selected/clicked
+   - Creates glow effect with theme accent color */
 input:focus,
 textarea:focus,
 select:focus {
 	outline: none;
-	border-color: #a855f7;
-	box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
-	background: rgba(74, 44, 109, 0.7);
+	border-color: var(--accent-primary);
+	box-shadow: 0 0 0 3px var(--border-focus);
+	background: var(--bg-hover);
 }
 
-/* Make entire datetime input clickable
-   - position: relative allows absolute positioning of child pseudo-elements
-   - cursor: pointer shows hand cursor over entire input */
+/* Make entire datetime input clickable */
 input[type="datetime-local"] {
 	position: relative;
 	cursor: pointer;
 }
 
-/* Calendar picker indicator - Make it cover the entire input
-   - position: absolute takes it out of normal flow
-   - width/height: 100% makes it cover the entire input area
-   - opacity: 0 hides the icon but keeps it clickable
-   - This makes clicking ANYWHERE in the input open the picker */
+/* Calendar picker indicator - Makes entire input area clickable
+   - opacity: 0 hides the icon but keeps it clickable */
 input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 	position: absolute;
 	top: 0;
@@ -410,16 +528,14 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 	cursor: pointer;
 }
 
-/* ::placeholder pseudo-element - Styles placeholder text
-   - opacity: Controls transparency (0 = invisible, 1 = solid) */
+/* ::placeholder pseudo-element - Styles placeholder text */
 input::placeholder,
 textarea::placeholder {
-	color: #c084fc;
+	color: var(--text-secondary);
 	opacity: 0.6;
 }
 
-/* Textarea specific styling
-   - resize: vertical allows vertical resize only (not horizontal) */
+/* Textarea specific styling */
 textarea {
 	min-height: 80px;
 	resize: vertical;
@@ -427,8 +543,7 @@ textarea {
 
 /* Select dropdown custom styling
    - appearance: none removes browser default arrow
-   - background-image: Custom SVG arrow (data URI - embedded SVG code)
-   - background-position: Places arrow on right side */
+   - Custom SVG arrow that adapts to theme */
 select {
 	cursor: pointer;
 	appearance: none;
@@ -445,23 +560,21 @@ select {
 	display: flex;
 	gap: 0.5rem;
 	margin-bottom: 1.5rem;
-	background: rgba(45, 27, 78, 0.4);
+	background: var(--bg-card);
 	backdrop-filter: blur(10px);
-	border: 1px solid rgba(168, 85, 247, 0.2);
+	border: 1px solid var(--border-color);
 	border-radius: 12px;
 	padding: 0.5rem;
 }
 
-/* Individual tab button
-   - flex: 1 makes tabs equal width (each takes 1 share of available space)
-   - transparent background allows parent background to show through */
+/* Individual tab button - Uses theme colors */
 .tab {
 	flex: 1;
 	padding: 0.75rem 1.5rem;
 	background: transparent;
 	border: none;
 	border-radius: 8px;
-	color: #c084fc;
+	color: var(--text-secondary);
 	font-size: 1rem;
 	font-weight: 600;
 	cursor: pointer;
@@ -469,33 +582,29 @@ select {
 }
 
 .tab:hover {
-	background: rgba(74, 44, 109, 0.5);
-	color: #e9d5ff;
+	background: var(--bg-input);
+	color: var(--text-primary);
 }
 
-/* Active tab state - Applied when tab is selected
-   - Class selector: .tab.active means element must have both classes */
+/* Active tab state - Highlighted with theme accent color */
 .tab.active {
-	background: rgba(168, 85, 247, 0.3);
-	color: #f3e8ff;
-	box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2);
+	background: var(--border-color);
+	color: var(--text-primary);
+	box-shadow: var(--shadow-sm);
 }
 
 /*! TOOLBAR - Sort controls and actions */
 
-/* Toolbar container
-   - justify-content: space-between pushes items to edges
-   - align-items: center vertically centers items
-   - flex-wrap: wrap allows items to wrap on small screens */
+/* Toolbar container - Uses theme colors for glass effect */
 .todo-toolbar {
 	display: flex;
 	gap: 1rem;
 	align-items: center;
 	justify-content: space-between;
 	flex-wrap: wrap;
-	background: rgba(45, 27, 78, 0.4);
+	background: var(--bg-card);
 	backdrop-filter: blur(10px);
-	border: 1px solid rgba(168, 85, 247, 0.2);
+	border: 1px solid var(--border-color);
 	border-radius: 12px;
 	padding: 1rem 1.5rem;
 	margin-bottom: 1.5rem;
@@ -505,47 +614,42 @@ select {
 	display: flex;
 	align-items: center;
 	gap: 0.75rem;
-	color: #c084fc;
+	color: var(--text-secondary);
 	font-weight: 500;
 }
 
 /*! CUSTOM CHECKBOX - Replacing browser default */
 
-/* Checkbox base styling
-   - appearance: none removes browser's default checkbox styling
-   - position: relative allows ::after pseudo-element positioning
-   - All browsers have different default checkbox styles, this creates consistent look */
+/* Checkbox base styling - Uses theme colors
+   - appearance: none removes browser's default checkbox styling */
 input[type="checkbox"] {
 	appearance: none;
 	width: 24px;
 	height: 24px;
-	border: 2px solid rgba(168, 85, 247, 0.5);
+	border: 2px solid var(--border-color);
 	border-radius: 6px;
-	background: rgba(74, 44, 109, 0.5);
+	background: var(--bg-input);
 	cursor: pointer;
 	position: relative;
 	transition: all 0.3s ease;
 }
 
 input[type="checkbox"]:hover {
-	border-color: #a855f7;
-	background: rgba(74, 44, 109, 0.7);
+	border-color: var(--accent-primary);
+	background: var(--bg-hover);
 }
 
-/* :checked pseudo-class - Triggers when checkbox is checked */
+/* :checked pseudo-class - Uses theme accent color when checked */
 input[type="checkbox"]:checked {
-	background: #7c3aed;
-	border-color: #7c3aed;
+	background: var(--accent-secondary);
+	border-color: var(--accent-secondary);
 }
 
-/* ::after pseudo-element - Creates checkmark ✓
-   - content: Inserts text/icon (empty quotes = no content)
-   - position: absolute positions relative to parent
-   - transform: translate(-50%, -50%) centers element precisely */
+/* ::after pseudo-element creates checkmark ✓ */
 input[type="checkbox"]:checked::after {
 	content: "✓";
 	position: absolute;
-	color: #f3e8ff;
+	color: var(--text-primary);
 	font-size: 16px;
 	font-weight: bold;
 	top: 50%;
@@ -555,12 +659,11 @@ input[type="checkbox"]:checked::after {
 
 /*! DELETE BUTTON - Destructive action styling */
 
-/* Red-themed button for delete action
-   - Red color scheme signals destructive action to users */
+/* Red-themed button for delete action - Uses theme danger color */
 .btn-danger {
-	background: rgba(239, 68, 68, 0.3);
-	color: #fca5a5;
-	border: 1px solid rgba(239, 68, 68, 0.4);
+	background: transparent;
+	color: var(--danger);
+	border: 1px solid var(--danger);
 	padding: 0.5rem 1rem;
 	font-size: 0.875rem;
 	font-weight: 600;
@@ -570,52 +673,40 @@ input[type="checkbox"]:checked::after {
 }
 
 .btn-danger:hover {
-	background: rgba(239, 68, 68, 0.5);
-	border-color: rgba(239, 68, 68, 0.6);
+	background: var(--danger);
+	color: var(--text-primary);
 	transform: translateY(-2px);
-	box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+	box-shadow: var(--shadow-sm);
 }
 
 /*! TODO CARDS - Main todo item display */
 
-/* Cards container
-   - display: grid creates grid layout
-   - gap: Space between grid items (easier than margins on each item) */
+/* Cards container - Grid layout */
 .todo-cards {
 	display: grid;
 	gap: 1rem;
 	margin-top: 1.5rem;
 }
 
-/* * Individual todo card - Glass morphism effect
-   - backdrop-filter: blur() is the KEY to glass effect (blurs background content)
-   - Semi-transparent background lets background show through
-   - Layered box-shadows create depth */
+/* Individual todo card - Glass morphism effect with theme colors */
 .todo-card {
-	/* Glass morphism effect */
-	background: rgba(45, 27, 78, 0.4);
+	background: var(--bg-card);
 	backdrop-filter: blur(10px);
-	border: 1px solid rgba(168, 85, 247, 0.2);
+	border: 1px solid var(--border-color);
 	border-radius: 16px;
 	padding: 1.5rem;
-
-	/* Depth and elevation */
-	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-
-	/* Smooth transitions for hover effects */
+	box-shadow: var(--shadow-md);
 	transition: all 0.3s ease;
 }
 
-/* Hover state - Card lifts up when mouse over
-   - Multiple properties change smoothly thanks to transition */
+/* Hover state - Card lifts up with theme shadow */
 .todo-card:hover {
 	transform: translateY(-4px);
-	border-color: rgba(168, 85, 247, 0.4);
-	box-shadow: 0 12px 48px rgba(168, 85, 247, 0.2);
+	border-color: var(--border-hover);
+	box-shadow: var(--shadow-lg);
 }
 
-/* Card action buttons spacing
-   - Descendant selector: .todo-card input targets inputs INSIDE .todo-card */
+/* Card action buttons spacing */
 .todo-card input[type="checkbox"],
 .todo-card .btn-danger {
 	margin-top: 1rem;
@@ -627,10 +718,7 @@ input[type="checkbox"]:checked::after {
 
 /*! TODO CARD CONTENT - Text and metadata */
 
-/* Todo header - Contains title and priority stars
-   - display: flex creates horizontal layout
-   - justify-content: space-between pushes title left, stars right
-   - align-items: center vertically centers both */
+/* Todo header - Contains title and priority stars */
 .todo-header {
 	display: flex;
 	justify-content: space-between;
@@ -638,26 +726,28 @@ input[type="checkbox"]:checked::after {
 	margin-bottom: 0.75rem;
 }
 
-/* Todo title */
+/* Todo title - Uses theme text color */
 .todo-card h3 {
 	font-size: 1.5rem;
-	color: #e9d5ff;
+	color: var(--text-primary);
 	margin: 0;
 	font-weight: 600;
 }
 
-/* Priority stars display
-   - font-size: Larger stars for visibility
-   - filter: drop-shadow() creates glow effect */
+/* Completed todo styling */
+.todo-card h3.completed {
+	text-decoration: line-through;
+	opacity: 0.6;
+}
+
+/* Priority stars display - Uses theme warning color */
 .priority-stars {
 	font-size: 1.3rem;
-	color: #fbbf24;
+	color: var(--warning);
 	filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.5));
 }
 
-/* Priority stars display
-   - display: flex creates horizontal layout for stars
-   - gap: Small space between each star */
+/* Priority stars container */
 .priority {
 	font-size: 1.2rem;
 	margin-bottom: 1rem;
@@ -665,28 +755,23 @@ input[type="checkbox"]:checked::after {
 	gap: 0.25rem;
 }
 
-/* Star glow effect
-   - filter: drop-shadow() creates glow around stars (like box-shadow but for text/icons) */
+/* Star glow effect using theme color */
 .priority span {
-	filter: drop-shadow(0 0 4px rgba(168, 85, 247, 0.5));
+	filter: drop-shadow(0 0 4px var(--border-color));
 }
 
-/* Notes section - Distinct background
-   - border-left: Accent line on left side
-   - font-style: italic differentiates from other text */
+/* Notes section - Distinct background with theme colors */
 .notes {
-	background: rgba(74, 44, 109, 0.3);
+	background: var(--bg-tertiary);
 	padding: 0.75rem;
 	border-radius: 8px;
-	border-left: 3px solid #a855f7;
+	border-left: 3px solid var(--accent-primary);
 	margin: 0.75rem 0;
 	font-style: italic;
-	color: #c084fc;
+	color: var(--text-secondary);
 }
 
-/* Todo metadata container - Dates and timestamps
-   - display: flex with flex-direction: column stacks dates vertically
-   - gap: Adds consistent space between each date line */
+/* Todo metadata container - Dates and timestamps */
 .todo-meta {
 	display: flex;
 	flex-direction: column;
@@ -695,15 +780,12 @@ input[type="checkbox"]:checked::after {
 	font-size: 0.875rem;
 }
 
-/* Individual metadata spans */
+/* Individual metadata spans - Uses theme text color */
 .todo-meta span {
-	color: #c084fc;
+	color: var(--text-secondary);
 }
 
-/* Todo controls container - Checkbox and delete button
-   - display: flex creates horizontal layout
-   - align-items: center vertically aligns checkbox with button
-   - gap: Space between checkbox and button */
+/* Todo controls container - Checkbox and delete button */
 .todo-controls {
 	display: flex;
 	align-items: center;
@@ -711,51 +793,47 @@ input[type="checkbox"]:checked::after {
 	margin-top: 1rem;
 }
 
-/* Date labels styling
-   - display: flex allows icon and text to align horizontally
-   - align-items: center vertically centers icon with text */
+/* Date labels styling */
 .due-date,
 .date-added,
 .completed-date,
 .deleted-date {
 	font-size: 0.875rem;
-	color: #c084fc;
+	color: var(--text-secondary);
 	margin: 0.5rem 0;
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
 }
 
-/* Completed date - Green color indicates success */
+/* Completed date - Uses theme success color */
 .completed-date {
-	color: #86efac;
+	color: var(--success) !important;
 }
 
-/* Deleted date - Red color indicates removal */
+/* Deleted date - Uses theme danger color */
 .deleted-date {
-	color: #fca5a5;
+	color: var(--danger) !important;
 }
 
-/* Deleted badge - Shows in history view
-   - display: inline-block allows padding and margin on inline element
-   - Pill shape from large border-radius */
+/* Deleted badge - Shows in history view */
 .deleted-badge {
 	display: inline-block;
-	background: rgba(239, 68, 68, 0.2);
-	color: #fca5a5;
+	background: var(--danger);
+	color: var(--text-primary);
 	padding: 0.25rem 0.75rem;
 	border-radius: 12px;
 	font-size: 0.875rem;
 	font-weight: 500;
 	margin-left: 0.75rem;
-	border: 1px solid rgba(239, 68, 68, 0.3);
+	border: 1px solid var(--danger);
+	opacity: 0.7;
 }
 
 /*! RESPONSIVE DESIGN - Mobile friendly */
 
-/* @media query - Applies styles only when condition is true
-   - max-width: 768px means "when screen width is 768px or smaller" (tablets and phones)
-   - Adjusts layouts for smaller screens */
+/* @media query - Applies styles only on smaller screens
+   - Adjusts layouts for mobile devices */
 @media (max-width: 768px) {
 	.app {
 		padding: 1rem;
@@ -769,7 +847,7 @@ input[type="checkbox"]:checked::after {
 		font-size: 3rem;
 	}
 
-	/* flex-direction: column stacks buttons vertically on mobile */
+	/* Stack buttons vertically on mobile */
 	.counter-buttons {
 		flex-direction: column;
 	}
@@ -777,5 +855,21 @@ input[type="checkbox"]:checked::after {
 	/* Full width buttons on mobile */
 	.btn {
 		width: 100%;
+	}
+
+	/* Adjust navbar for mobile */
+	.navbar {
+		padding: 1rem;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	.navbar-links {
+		gap: 1rem;
+	}
+
+	/* Stack feature cards on small screens */
+	.features {
+		grid-template-columns: 1fr;
 	}
 }
